@@ -110,7 +110,7 @@ def search_vec_list(table_name, nq, topk, nprobe):
     time_end = time.time()
     time_cost = time_end - time_start
     print("time_search = ", time_cost)
-    # print(results)
+    print(results)
     time_start = time.time()
     save_re_to_file(table_name, rand, results, nprobe)
     time_end = time.time()

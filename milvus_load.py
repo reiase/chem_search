@@ -205,7 +205,7 @@ def load_ids(file):
     return ids
 
 def load_hex(file):
-    file = FILE_HEX_PATH + '/' + file
+    file = FILE_NPY_PATH + '/' + file
     print("hex_file:",file)
     data = np.load(file)
     data = data.tolist()
