@@ -41,8 +41,9 @@ def get_smiles_fp(smiles, ids, filename, num):
         if m is None:
             count = count + 1
             continue
-        # the method for generating fingerprints - morgan_fp
-        fp2 = AllChem.GetMorganFingerprintAsBitVect(m, 2, vec_dim)
+        # the method for generating fingerprints - morgan_fp or rdk_fp
+        # fp2 = AllChem.GetMorganFingerprintAsBitVect(m, 2, vec_dim)
+        fp2 = Chem.RDKFingerprint(m)
         hex_fp = DataStructs.BitVectToFPSText(fp2)
         hex_fps.append(hex_fp)
         new_ids.append(ids[count])
