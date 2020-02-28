@@ -130,7 +130,8 @@ def npy_to_milvus(MILVUS_TABLE):
     count = 0
     for filename in filenames:
         ids_vec = load_ids(filenames_ids[count])
-        vectors = load_npy_data(filename)
+        vectors = load_hex(filename)
+        # vectors = load_npy_data(filename)
         ids_lens = 0
         print(len(ids_vec),len(vectors),'\n')
         while ids_lens<len(vectors) :
@@ -202,6 +203,16 @@ def load_ids(file):
         data = line.strip('\n')
         ids.append(int(data))
     return ids
+
+def load_hex(file):
+    file = FILE_HEX_PATH + '/' + file
+    print("hex_file:",file)
+    data = np.load(file)
+    data = data.tolist()
+    vectors = []
+    for d in data:
+        vectors.append(bytes.fromhex(d))
+    return vectors
 
 
 def main(argv):
