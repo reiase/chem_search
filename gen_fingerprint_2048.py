@@ -17,10 +17,8 @@ file_length = 1000000
 total_length = 60000000
 vec_dim = 2048
 
-# FILE_NAME = '/data/workspace/test/test.smi'
-# OUT = '/data/workspace/out_2048'
-FILE_NAME = '/mnt/data/H.txt'
-OUT = '/mnt/data/out_2048'
+FILE_NAME = '/data/workspace/test/test.smi'
+OUT = '/data/workspace/out_2048'
 OUT_SMILES = 'out_smiles'
 OUT_IDS = 'out_ids'
 OUT_NPY = 'out_npy'
