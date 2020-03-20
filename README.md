@@ -1,5 +1,24 @@
 # README
 
+## gen_fingerprint.py说明
+
+### 参数说明
+
+| 参数         | 描述                            | 默认设置                      |
+| ------------ | ------------------------------- | ----------------------------- |
+| file_length  | 每个文件保存 fingerprint 的数量 | 1000000                       |
+| total_length | 多线程保存 fingerprint 的总数   | 60000000                      |
+| FILE_NAME    | 保存.smi文件的位置              | /data/workspace/test/test.smi |
+| OUT          | 生成结果的目录                  | /data/workspace/out_          |
+### 使用说明
+
+```bash
+$ python gen_fingerprint.p
+# 执行此命令使用多线程将 FILE_PATH 下的 smiles 转化为fingerprint，程序将建立 OUT 等目录存储结果。
+```
+
+
+
 ## thread_get_smiles_fp.py说明
 
 ### 参数说明
