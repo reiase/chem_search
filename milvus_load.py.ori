@@ -13,8 +13,15 @@ SERVER_PORT = 19530
 FILE_NPY_PATH = '/mnt/molsearch/out_2048/out_npy'
 FILE_IDS = '/mnt/molsearch/out_2048/out_ids'
 
+# FILE_UINT8_PATH = '/data/workspace/apptec/test/uint8'
+# FILE_CSV_PATH = '/data/lym/dataset_test/csv_dataset'
+# FILE_FVECS_PATH = '/mnt/data/base.fvecs'
+# FILE_BVECS_PATH = '/mnt/data/bigann_base.bvecs'
+# FVECS_VEC_NUM = 1000000000
+# FVECS_BASE_LEN = 100000
 
 milvus = Milvus()
+
 
 # is_uint8 = False
 # if_normaliz = False
@@ -127,12 +134,18 @@ def npy_to_milvus(MILVUS_TABLE):
         # vectors = load_npy_data(filename)
         ids_lens = 0
         print(len(ids_vec),len(vectors),'\n')
-        time_add_start = time.time()
-        # status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors, ids=ids_vec)
-        status, ids = milvus.insert(collection_name=MILVUS_TABLE, records=vectors, ids=ids_vec)
-        print(status)
-        time_add_end = time.time()
-        print(filename, " insert milvus time-------: ", time_add_end - time_add_start)
+        while ids_lens<len(vectors) :
+            time_add_start = time.time()
+            try:
+                status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+100000], ids=ids_vec[ids_lens:ids_lens+100000])
+                print(status)
+            except:
+                status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:len(vectors)], ids=ids_vec[ids_lens:len(vectors)])
+                print(status)
+            time_add_end = time.time()
+            print("ids:",len(ids),ids_vec[0])
+            print(filename, " insert milvus time: ", time_add_end - time_add_start)
+            ids_lens += 100000
         count += 1
 
 
@@ -188,8 +201,7 @@ def load_ids(file):
     ids = []
     for line in open(file, 'r'):
         data = line.strip('\n')
-        ids.append(int(data[4:]))
-        # ids.append(int(data))
+        ids.append(int(data))
     return ids
 
 def load_hex(file):

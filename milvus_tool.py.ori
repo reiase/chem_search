@@ -12,25 +12,20 @@ SERVER_ADDR = "42.159.224.224"
 SERVER_PORT = 19530
 
 index_file_size = 2048
-# metric_type = MetricType.IP
-# metric_type = MetricType.SUBSTRUCTURE
-# metric_type = MetricType.SUPERSTRUCTURE
 metric_type = MetricType.JACCARD
+#metric_type = MetricType.SUBSTRUCTURE
+#metric_type = MetricType.SUPERSTRUCTURE
 nlist=2048
 
-NL_FOLDER_NAME = '/data/source_data'
-#NQ_FOLDER_NAME = 'nq_npy_morgan'
-NQ_FOLDER_NAME = 'nq_npy_2048'
-#NQ_FOLDER_NAME = 'nq_npy_512'
-PE_FOLDER_NAME = 'performance'
+# NL_FOLDER_NAME = '/data/source_data'
+# NQ_FOLDER_NAME = 'nq_npy'
+# PE_FOLDER_NAME = 'performance'
 
 # IS_CSV = False
 # IS_UINT8 = False
 
-nq_scope = [1]
-topk_scope = []
-for i in range(50):
-    topk_scope.append(100)
+# nq_scope = [1, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800]
+# topk_scope = [1,1, 20, 50, 100, 300, 500, 800, 1000]
 
 
 # PE_FILE_NAME = '_output.csv'
@@ -55,29 +50,27 @@ def connect_server():
 
 # -c/create the table with milvus
 def create_table(table_name, dim):
-    param = {'collection_name': table_name, 'dimension': dim, 'index_file_size':index_file_size, 'metric_type':metric_type}
+    param = {'table_name': table_name, 'dimension': dim, 'index_file_size':index_file_size, 'metric_type':metric_type}
     print("create table: ", table_name, " dimension:", dim, 'metric_type:', metric_type)
-    return MILVUS.create_collection(param)
+    return MILVUS.create_table(param)
 
 
 def table_show():
-    print(MILVUS.show_collections())
+    print(MILVUS.show_tables())
 
 
 def describe_table(table_name):
-    print(MILVUS.describe_collection(table_name)[1])
+    print(MILVUS.describe_table(table_name)[1])
 
 
 def delete_table(table_name):
     print("delete table:", table_name)
-    MILVUS.drop_collection(table_name)
+    MILVUS.delete_table(table_name=table_name)
 
 
 def build_table(table_name,index_type):
-    # index_param = {'index_type': index_type, 'nlist': nlist}
-    # status = MILVUS.create_index(table_name, index_param)
-    index_param = {'nlist': nlist}
-    status = MILVUS.create_index(table_name, index_type, index_param)
+    index_param = {'index_type': index_type, 'nlist': nlist}
+    status = MILVUS.create_index(table_name,index_param)
     print(status)
 
 
@@ -90,7 +83,7 @@ def show_client_version():
 
 
 def table_rows(table_name):
-    print(table_name, 'has', MILVUS.count_collection(table_name)[1], 'rows')
+    print(table_name, 'has', MILVUS.get_table_row_count(table_name)[1], 'rows')
 
 
 def load_nq_vec(nq):
@@ -164,7 +157,7 @@ def search_mols_list(table_name,np):
     # random1 = datetime.datetime.now().strftime("%m%d%H%M")
     if not os.path.exists(PE_FOLDER_NAME):
         os.mkdir(PE_FOLDER_NAME)
-    filename = PE_FOLDER_NAME + '/' + table_name + '_' + str(np) +".txt" 
+    filename = PE_FOLDER_NAME + '/' + table_name + '_' + str(np) + PE_FILE_NAME
     file = open(filename, "w+")
     file.write('nq,topk,total_time,avg_time' + '\n')
     for nq in nq_scope:
@@ -174,8 +167,7 @@ def search_mols_list(table_name,np):
         print("load query:", len(query_list), "time_load = ", time_end - time_start)
         for k in topk_scope:
             time_start = time.time()
-            # MILVUS.search_vectors(table_name=table_name, query_records=query_list, top_k=k, nprobe=np)
-            MILVUS.search(collection_name=table_name, query_records=query_list, top_k=k, params={"nprobe": np})
+            MILVUS.search_vectors(table_name=table_name, query_records=query_list, top_k=k, nprobe=np)
             time_end = time.time()
             time_cost = time_end - time_start
             line = str(nq) + ',' + str(k) + ',' + str(round(time_cost, 4)) + ',' + str(round(time_cost / nq, 4)) + '\n'
@@ -265,6 +257,8 @@ def main():
         elif opt_name in ("-d", "--delete"):
             connect_server()
             delete_table(table_name)
+            if os.path.exists(IDMAP_FOLDER_NAME + table_name + IDMAP_NAME):
+                os.remove(IDMAP_FOLDER_NAME + table_name + IDMAP_NAME)
         elif opt_name == "--build":
             connect_server()
             print(table_name," ",it)

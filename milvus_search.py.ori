@@ -7,12 +7,9 @@ from milvus import Milvus, Prepare, IndexType, Status
 
 MILVUS = Milvus()
 SERVER_ADDR = "192.168.1.58"
-SERVER_PORT = 19522
+SERVER_PORT = 19530
 
-#NQ_FOLDER_NAME = 'nq_npy_morgan'
-NQ_FOLDER_NAME = 'nq_npy_2048'
-#NQ_FOLDER_NAME = 'nq_npy_512'
-# NQ_FOLDER_NAME = '/data/workspace/apptec/1B_data/milvus_molview/d'
+NQ_FOLDER_NAME = 'nq_npy'
 SE_FOLDER_NAME = 'search'
 SE_FILE_NAME = '_output.txt'
 BASE_FOLDER_NAME = 'test_3m'
@@ -21,8 +18,8 @@ TOFILE = False
 # Randomly search from GT_NQ query vectors
 GT_NQ = 100
 
-CSV = False
-UINT8 = False
+# CSV = False
+# UINT8 = False
 
 NPROBE = 64
 
@@ -96,7 +93,6 @@ def search_vec_list(table_name, nq, topk, nprobe):
     rand = None
     query_list = []
     # vectors = load_uint8_vec()
-    # vectors = load_all_vec()
     vectors = load_hex_vec()
     if nq != 0:
         try:
@@ -108,16 +104,13 @@ def search_vec_list(table_name, nq, topk, nprobe):
             sys.exit()
     else:
         query_list = vectors
-    #print(query_list)
     print("table name:", table_name, "query list:", len(query_list), "topk:", topk, "nprobe:", nprobe)
     time_start = time.time()
-    # status, results = MILVUS.search_vectors(table_name=table_name, query_records=query_list, top_k=topk, nprobe=nprobe)
-    status, results = MILVUS.search(collection_name=table_name, query_records=query_list, top_k=topk, params={"nprobe":nprobe})
-    #print(status)
+    status, results = MILVUS.search_vectors(table_name=table_name, query_records=query_list, top_k=topk, nprobe=nprobe)
     time_end = time.time()
     time_cost = time_end - time_start
     print("time_search = ", time_cost)
-    print(status,results)
+    print(results)
     time_start = time.time()
     save_re_to_file(table_name, rand, results, nprobe)
     time_end = time.time()
