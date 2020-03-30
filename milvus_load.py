@@ -7,11 +7,11 @@ from functools import reduce
 import numpy as np
 from milvus import *
 
-SERVER_ADDR = "42.159.224.224"
-SERVER_PORT = 19530
+SERVER_ADDR = "40.117.75.127"
+SERVER_PORT = 19520
 
-FILE_NPY_PATH = '/mnt/molsearch/out_2048/out_npy'
-FILE_IDS = '/mnt/molsearch/out_2048/out_ids'
+FILE_NPY_PATH = '/mnt/pubchem/out/out_npy'
+FILE_IDS = '/mnt/pubchem/out/out_ids'
 
 
 milvus = Milvus()
@@ -188,8 +188,8 @@ def load_ids(file):
     ids = []
     for line in open(file, 'r'):
         data = line.strip('\n')
-        ids.append(int(data[4:]))
-        # ids.append(int(data))
+        #ids.append(int(data[4:]))
+        ids.append(int(data))
     return ids
 
 def load_hex(file):

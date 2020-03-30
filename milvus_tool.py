@@ -8,14 +8,14 @@ from milvus import *
 
 
 MILVUS = Milvus()
-SERVER_ADDR = "42.159.224.224"
-SERVER_PORT = 19530
+SERVER_ADDR = "40.117.75.127"
+SERVER_PORT = 19520
 
 index_file_size = 2048
 # metric_type = MetricType.IP
 # metric_type = MetricType.SUBSTRUCTURE
-# metric_type = MetricType.SUPERSTRUCTURE
-metric_type = MetricType.JACCARD
+metric_type = MetricType.SUPERSTRUCTURE
+# metric_type = MetricType.JACCARD
 nlist=2048
 
 NL_FOLDER_NAME = '/data/source_data'

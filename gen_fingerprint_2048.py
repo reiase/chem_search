@@ -17,15 +17,16 @@ file_length = 200000
 total_length = 2800000
 vec_dim = 2048
 
-FILE_NAME = '/mnt/molsearch/data_100_144.can'
-OUT = '/mnt/molsearch/out_2048'
+FILE_NAME = '/mnt/pubchem/pub_1kw.smi'
+OUT = '/mnt/pubchem/out'
 OUT_SMILES = 'out_smiles'
 OUT_IDS = 'out_ids'
 OUT_NPY = 'out_npy'
 
 
 def thread_runner(smiles, ids, filename, cycle):
-    thread_num = math.ceil(len(smiles)/file_length)
+    #thread_num = math.ceil(len(smiles)/file_length)
+    thread_num = math.ceil(len(total_length)/file_length)
     print("thread_num:", thread_num)
     with ProcessPoolExecutor(thread_num) as executor:
         for i in range(thread_num):
@@ -93,6 +94,7 @@ def get_files_fp(file_name):
                 smiles=[]
                 ids=[]
     if num != 0:
+        print("cycle:",cycle, smiles[0], ids[0])
         thread_runner(smiles, ids, file_name, cycle)
 
 
