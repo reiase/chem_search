@@ -25,7 +25,7 @@ OUT_NPY = 'out_npy'
 
 
 def thread_runner(smiles, ids, filename, cycle):
-    thread_num = math.ceil(len(total_length)/file_length)
+    thread_num = math.ceil(total_length/file_length)
     print("thread_num:", thread_num)
     with ProcessPoolExecutor(thread_num) as executor:
         for i in range(thread_num):
