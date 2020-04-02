@@ -81,7 +81,7 @@ def get_files_fp(file_name):
     with open(file_name, "r") as infile:
         for line in infile:
             num += 1
-            if num < 66000000:
+            if num < 660000000:
                 continue
             else:
                 num = 1
