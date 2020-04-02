@@ -83,18 +83,16 @@ def get_files_fp(file_name):
             num += 1
             if num < 660000000:
                 continue
-            else:
-                num = 1
             parts = line.split()
             try:
                 smiles.append(parts[0])
                 ids.append(parts[1])
             except :
                 print(parts)
-            if num >= total_length:
+            if num >= 660000000+total_length:
                 print("cycle:",cycle, smiles[0], ids[0])
                 thread_runner(smiles, ids, file_name, cycle)
-                num = 0
+                num = 660000000
                 cycle += 1
                 smiles=[]
                 ids=[]
