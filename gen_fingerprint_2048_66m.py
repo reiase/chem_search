@@ -73,13 +73,18 @@ def save_file(news, fname):
 
 
 def get_files_fp(file_name):
-    cycle = 0
+    # cycle = 0
+    cycle = 11
     num = 0
     smiles=[]
     ids=[]
     with open(file_name, "r") as infile:
         for line in infile:
             num += 1
+            if num < 66000000:
+                continue
+            else:
+                num = 1
             parts = line.split()
             try:
                 smiles.append(parts[0])
