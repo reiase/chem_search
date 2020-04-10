@@ -144,6 +144,8 @@ def npy_to_milvus(MILVUS_TABLE):
     filenames_ids.sort()
     count = 0
     for filename in filenames:
+        if count>440:
+            break
         ids_vec = load_ids(filenames_ids[count])
         vectors = load_hex(filename)
         # vectors = load_npy_data(filename)
