@@ -113,7 +113,7 @@ def connect_milvus_server():
     return status
 
 
-
+"""
 def npy_to_milvus(MILVUS_TABLE):
     filenames = os.listdir(FILE_NPY_PATH)
     filenames.sort()
@@ -134,6 +134,37 @@ def npy_to_milvus(MILVUS_TABLE):
         time_add_end = time.time()
         print(filename, " insert milvus time-------: ", time_add_end - time_add_start)
         count += 1
+"""
+
+def npy_to_milvus(MILVUS_TABLE):
+    filenames = os.listdir(FILE_NPY_PATH)
+    filenames.sort()
+
+    filenames_ids = os.listdir(FILE_IDS)
+    filenames_ids.sort()
+    count = 0
+    for filename in filenames:
+        ids_vec = load_ids(filenames_ids[count])
+        vectors = load_hex(filename)
+        # vectors = load_npy_data(filename)
+        ids_lens = 0
+        print(len(ids_vec),len(vectors),'\n')
+        while ids_lens<len(vectors) :
+            time_add_start = time.time()
+            try:
+                # status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+100000], ids=ids_vec[ids_lens:ids_lens+100000])
+                status, ids = milvus.insert(collection_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+100000], ids=ids_vec[ids_lens:ids_lens+100000])
+                print(status)
+            except:
+                # status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:len(vectors)], ids=ids_vec[ids_lens:len(vectors)])
+                status, ids = milvus.insert(collection_name=MILVUS_TABLE, records=vectors[ids_lens:len(vectors)], ids=ids_vec[ids_lens:len(vectors)])
+                print(status)
+            time_add_end = time.time()
+            print("ids:",len(ids),ids_vec[0])
+            print(filename, " insert milvus time: ", time_add_end - time_add_start)
+            ids_lens += 100000
+        count += 1
+
 
 
 def uint8_to_milvus(MILVUS_TABLE):
