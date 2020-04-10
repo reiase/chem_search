@@ -153,7 +153,7 @@ def npy_to_milvus(MILVUS_TABLE):
             time_add_start = time.time()
             try:
                 # status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+100000], ids=ids_vec[ids_lens:ids_lens+100000])
-                status, ids = milvus.insert(collection_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+100000], ids=ids_vec[ids_lens:ids_lens+100000])
+                status, ids = milvus.insert(collection_name=MILVUS_TABLE, records=vectors[ids_lens:ids_lens+200000], ids=ids_vec[ids_lens:ids_lens+200000])
                 print(status)
             except:
                 # status, ids = milvus.add_vectors(table_name=MILVUS_TABLE, records=vectors[ids_lens:len(vectors)], ids=ids_vec[ids_lens:len(vectors)])
@@ -162,7 +162,7 @@ def npy_to_milvus(MILVUS_TABLE):
             time_add_end = time.time()
             print("ids:",len(ids),ids_vec[0])
             print(filename, " insert milvus time: ", time_add_end - time_add_start)
-            ids_lens += 100000
+            ids_lens += 200000
         count += 1
 
 
