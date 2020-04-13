@@ -6,6 +6,7 @@ import os
 from milvus import Milvus, Prepare, IndexType, Status
 from rdkit import Chem
 from rdkit import DataStructs
+import psycopg2
 
 MILVUS = Milvus()
 SERVER_ADDR = "192.168.1.58"
