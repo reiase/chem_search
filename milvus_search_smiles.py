@@ -106,8 +106,8 @@ def save_re_to_file(table_name, results):
     with open(file_name, 'w') as f:
         for i in range(len(results)):
             for j in range(len(results[i])):
-                ids = search_milids_in_pg(cur, table_naem, results[i][j].id)
-                smiles = search_milsmi_in_pg(cur, table_naem, results[i][j].id)
+                ids = search_milids_in_pg(cur, table_name, results[i][j].id)
+                smiles = search_milsmi_in_pg(cur, table_name, results[i][j].id)
                 line = ids + ',' + smiles + ',' + str(results[i][j].id) + ',' + str(results[i][j].distance)
                 f.write(line + '\n')
     cur.close()
