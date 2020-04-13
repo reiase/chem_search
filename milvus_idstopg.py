@@ -97,17 +97,17 @@ def ids_to_pg(conn, cur, table_name):
             break
         ids = load_ids(filename)
         smiles = load_smiles(filenames_smiles[count])
+        count += 1
 
         milvus_ids = []
         for i in range(len(ids)):
             location = '8' + '%05d'%count  + '%07d'%i
             milvus_ids.append(location)
 
-    with open(FILE_IDS_SMILES, 'w') as f:
-        for i in range(len(ids)):
-            f.write(milvus_ids[i] + ',' + ids[i] + ',' + smiles[i] + '\n')
-
-    copy_data_to_pg(conn, cur, table_name)
+        with open(FILE_IDS_SMILES, 'w') as f:
+            for i in range(len(ids)):
+                f.write(milvus_ids[i] + ',' + ids[i] + ',' + smiles[i] + '\n')
+        copy_data_to_pg(conn, cur, table_name)
 
 
 
