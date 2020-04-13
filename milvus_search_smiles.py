@@ -135,7 +135,7 @@ def search_ids_smi_list(table_name, topk, ids, smiles):
     vec = bytes.fromhex(hex_fp)
     query_list.append(vec)
 
-    print("table name:", table_name, "query list:", len(query_list), "topk:", topk, "nprobe:", nprobe)
+    print("table name:", table_name, "query list:", len(query_list), "topk:", topk)
     time_start = time.time()
     status, results = MILVUS.search(collection_name=table_name, query_records=query_list, top_k=topk, params={})
     time_end = time.time()
