@@ -4,6 +4,8 @@ import time
 import random
 import os
 from milvus import Milvus, Prepare, IndexType, Status
+from rdkit import Chem
+from rdkit import DataStructs
 
 MILVUS = Milvus()
 SERVER_ADDR = "192.168.1.58"
@@ -181,7 +183,7 @@ def main():
             smi = ''
             ids = opt_value
             connect_server()
-            search_ids_smi_list(table_name, nq, topk, ids, smi)  # test.py --table <tablename> -k <topk> --ids <ids_txt>
+            search_ids_smi_list(table_name, topk, ids, smi)  # test.py --table <tablename> -k <topk> --ids <ids_txt>
 
 
 if __name__ == '__main__':
