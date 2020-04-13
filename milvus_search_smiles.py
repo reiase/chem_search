@@ -9,8 +9,8 @@ from rdkit import DataStructs
 import psycopg2
 
 MILVUS = Milvus()
-SERVER_ADDR = "192.168.1.58"
-SERVER_PORT = 19522
+SERVER_ADDR = "192.168.1.85"
+SERVER_PORT = 19520
 
 PG_HOST = "192.168.1.85"
 PG_PORT = 5420
@@ -67,8 +67,9 @@ def connect_postgres_server():
 
 
 def search_smi_in_pg(cur, table_name, ids):
+    sql = "select smiles from " + table_name+ " where ids = '" + str(ids) + "';"
+    print(sql)
     try:
-        sql = "select smiles from " + table_name+ " where ids = '" + str(ids) + "';"
         cur.execute(sql)
         rows = cur.fetchall()
         return str(rows[0][0])
@@ -77,8 +78,9 @@ def search_smi_in_pg(cur, table_name, ids):
 
 
 def search_milsmi_in_pg(cur, table_name, ids):
+    sql = "select smiles from " + table_name+ " where milvus_ids = '" + str(ids) + "';"
+    print(sql)
     try:
-        sql = "select smiles from " + table_name+ " where milvus_ids = '" + str(ids) + "';"
         cur.execute(sql)
         rows = cur.fetchall()
         return str(rows[0][0])
@@ -114,10 +116,10 @@ def save_re_to_file(table_name, results):
     conn.close()
 
 
-def get_smi_in_pg(table_naem, ids):
+def get_smi_in_pg(table_name, ids):
     conn = connect_postgres_server()
     cur = conn.cursor()
-    index = search_smi_in_pg(cur, table_naem, ids)
+    index = search_smi_in_pg(cur, table_name, ids)
     cur.close()
     conn.close()
     return index
@@ -128,7 +130,7 @@ def search_ids_smi_list(table_name, topk, ids, smiles):
     query_list = []
 
     if ids:
-        smiles = get_smi_in_pg(table_naem, ids)
+        smiles = get_smi_in_pg(table_name, ids)
     mols = Chem.MolFromSmiles(smiles)
     fp = Chem.RDKFingerprint(mols, fpSize=VECTOR_DIMENSION)
     hex_fp = DataStructs.BitVectToFPSText(fp)

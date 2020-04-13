@@ -43,7 +43,7 @@ def create_pg_table(conn, cur, PG_TABLE_NAME):
 
 def copy_data_to_pg(conn, cur, PG_TABLE_NAME):
     sql = "copy " + PG_TABLE_NAME + " from '" + FILE_IDS_SMILES + "' with CSV delimiter ',';"
-    print(sql)
+    # print(sql)
     try:
         cur.execute(sql)
         conn.commit()
@@ -97,7 +97,6 @@ def ids_to_pg(conn, cur, table_name):
             break
         ids = load_ids(filename)
         smiles = load_smiles(filenames_smiles[count])
-        count += 1
 
         milvus_ids = []
         for i in range(len(ids)):
@@ -108,6 +107,7 @@ def ids_to_pg(conn, cur, table_name):
             for i in range(len(ids)):
                 f.write(milvus_ids[i] + ',' + ids[i] + ',' + smiles[i] + '\n')
         copy_data_to_pg(conn, cur, table_name)
+        count += 1
 
 
 
