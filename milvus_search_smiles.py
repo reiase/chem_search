@@ -144,7 +144,7 @@ def search_ids_smi_list(table_name, topk, ids, smiles):
     print(status,results)
 
     time_start = time.time()
-    save_re_to_file(table_name, rand, results, nprobe)
+    save_re_to_file(table_name, results)
     time_end = time.time()
     time_cost = time_end - time_start
     print("time_save = ", time_cost)
