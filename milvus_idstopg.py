@@ -43,7 +43,7 @@ def create_pg_table(conn, cur, PG_TABLE_NAME):
 
 def copy_data_to_pg(conn, cur, PG_TABLE_NAME):
     sql = "copy " + PG_TABLE_NAME + " from '" + FILE_IDS_SMILES + "' with CSV delimiter ',';"
-    # print(sql)
+    print(sql)
     try:
         cur.execute(sql)
         conn.commit()
