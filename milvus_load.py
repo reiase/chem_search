@@ -140,14 +140,18 @@ def npy_to_milvus(MILVUS_TABLE):
     filenames = os.listdir(FILE_NPY_PATH)
     filenames.sort()
 
-    filenames_ids = os.listdir(FILE_IDS)
-    filenames_ids.sort()
+    # filenames_ids = os.listdir(FILE_IDS)
+    # filenames_ids.sort()
     count = 0
     for filename in filenames:
         if count>440:
             break
-        ids_vec = load_ids(filenames_ids[count])
+        # ids_vec = load_ids(filenames_ids[count])
+        ids_vec = []
         vectors = load_hex(filename)
+        for i in range(len(vectors)):
+            location = '8' + '%05d'%count  + '%07d'%i
+            ids_vec.append(int(location))
         # vectors = load_npy_data(filename)
         ids_lens = 0
         print(len(ids_vec),len(vectors),'\n')
