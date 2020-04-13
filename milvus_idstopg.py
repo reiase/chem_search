@@ -7,16 +7,16 @@ from functools import reduce
 import numpy as np
 
 
-PG_HOST = "192.168.1.58"
-PG_PORT = 5432
-PG_USER = "zilliz_support"
-PG_PASSWORD = "zilliz123"
-PG_DATABASE = "demo1b"
+PG_HOST = "192.168.1.85"
+PG_PORT = 5420
+PG_USER = "postgres"
+PG_PASSWORD = "postgres"
+PG_DATABASE = "postgres"
 
 
-FILE_IDS_SMILES = '/data/workspace/test_ids_smiles.csv'
-FILE_SMILES = '/data/workspace/out_smiles'
-FILE_IDS = '/data/workspace/out_ids'
+FILE_IDS_SMILES = '/data/pubchem/out_data/test_ids_smiles.csv'
+FILE_SMILES = '/data/pubchem/out_data/out_smiles'
+FILE_IDS = '/data/pubchem/out_data/out_ids'
 
 
 def connect_postgres_server():

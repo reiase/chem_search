@@ -9,6 +9,12 @@ MILVUS = Milvus()
 SERVER_ADDR = "192.168.1.58"
 SERVER_PORT = 19522
 
+PG_HOST = "192.168.1.85"
+PG_PORT = 5420
+PG_USER = "postgres"
+PG_PASSWORD = "postgres"
+PG_DATABASE = "postgres"
+
 
 NQ_FOLDER_NAME = 'nq_npy_2048'
 SE_FOLDER_NAME = 'search'

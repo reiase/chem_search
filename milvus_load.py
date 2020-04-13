@@ -7,11 +7,11 @@ from functools import reduce
 import numpy as np
 from milvus import *
 
-SERVER_ADDR = "40.117.75.127"
+SERVER_ADDR = "192.168.1.85"
 SERVER_PORT = 19520
 
-FILE_NPY_PATH = '/mnt/pubchem/out/out_npy'
-FILE_IDS = '/mnt/pubchem/out/out_ids'
+FILE_NPY_PATH = '/data/pubchem/out_data/out_npy'
+FILE_IDS = '/data/pubchem/out_data/out_ids'
 
 
 milvus = Milvus()
