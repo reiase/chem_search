@@ -93,6 +93,8 @@ def ids_to_pg(conn, cur, table_name):
 
     count = 0
     for filename in filenames_ids:
+        if count>10:
+            break
         ids = load_ids(filename)
         smiles = load_smiles(filenames_smiles[count])
 
